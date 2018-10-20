@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  <title>Multiple Audio Players</title>
+
+
+
+      <link rel="stylesheet" href="scss/players.css">
+
+
+</head>
+
+<body>
+
+
+<!-- jade: compressed-->
+<ul class="audio-players">
+  <li>
+    <div class="audio-player js-audio-player">
+      <button class="audio-player__control js-control">
+        <div class="audio-player__control-icon"></div>
+      </button>
+      <h4 class="audio-player__title">Audio Clip One</h4>
+      <audio preload="auto">
+        <source src="http://pd.npr.org/anon.npr-mp3/npr/codeswitch/2016/08/20160803_codeswitch_11b.mp3"/>
+      </audio><img class="audio-player__cover" src="https://unsplash.it/g/300?image=29"/>
+      <video preload="auto" loop="loop">
+        <source src="https://dl.dropboxusercontent.com/u/5185018/audio-waves.mp4" type="video/mp4"/>
+      </video>
+    </div>
+  </li>
+</ul>
+  <script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
+
+
+
+    <script  src="js/players.js"></script>
+
+
+
+
+</body>
+
+</html>
