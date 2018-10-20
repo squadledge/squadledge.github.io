@@ -166,17 +166,13 @@ video {
 }
 
 .square{
-    width: 600px;
-    height: 600px;
+    width: 900px;
+    height: 900px;
     Background-color: #fff;/* Your Color */
 }
 
 p {
-    font-family: "geometric";
+    font-family: 'Quantico',sans-serif;
 }
 
-@font-face {
-    font-family: "geometric";
-    src: url("geometric.ttf");
-    font-weight: bold;
-}
+font-family: 'Quantico', sans-serif;

@@ -2510,6 +2510,7 @@ html.no-csstransitions .home-content__main {
 }
 
 
+
 /* -------------------------------------------------------------------
  * ## bricks/masonry
  * ------------------------------------------------------------------- */
@@ -2925,7 +2926,12 @@ html.no-csstransitions .home-content__main {
         font-size: 1.9rem;
     }
 }
-
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
 
 
 /* ===================================================================
