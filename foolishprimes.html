@@ -1,0 +1,90 @@
+<!doctype html>
+<meta charset="utf-8">
+<script src="https://distill.pub/template.v1.js"></script>
+<head>
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+            tex2jax: {
+              inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+              processEscapes: true
+            }
+          });
+        </script>
+        <script type="text/javascript"
+            src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+        </script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<script type="text/front-matter">
+  title: "Project Euler Problem 239: Twenty-Two Foolish Primes"
+  description: "Description of the post"
+  authors:
+  - Kathir Gounder
+  affiliations:
+  - San Miguel Ave
+</script>
+
+<dt-article>
+  <h1>Twenty-Two Foolish Primes</h1>
+  <h2>A quick explanantion on Project Euler Problem 239</h2>
+  <dt-byline></dt-byline>
+
+   <p> It's been a while since anything was posted on this website. But here we are trying to get back into the groove of things. Worked
+        through this problem from Project Euler yesterday despite it bringing back some traumatic combinatoric memories (probably the most
+        naive way to solve it). Tried using the Distill.pub article framework and mathJAX.</p>
+        <dt-byline></dt-byline>
+  <p> Here's the problem statement: </p>
+  <p>
+          <strong>A set of disks numbered 1 through 100 are placed in a line in random order.
+
+          What is the probability that we have a partial derangement such that exactly 22 prime number discs are found away from their natural positions?
+          (Any number of non-prime disks may also be found in or out of their natural positions.)
+
+          Give your answer rounded to 12 places behind the decimal point in the form 0.abcdefghijkl.</strong>
+  </p>
+<p>
+  Alright sounds like some proper aids. General Problem solving tip, let's try and break the problem down into stages and look for the invariants. So a quick
+  google search reveals there are 25 primes from 1 to 100. That means if exactly 22 primes must be in their position then 3 <strong> MUST </strong> be out of position.
+  Alright so lets fix 3 of the 25 primes in their positions, now if we can count the permutations (of the remaining 97 numbers) where the 22 primes are out of place we are done.
+  I am going to express this mathematically using a complement and unions. We designate $A_i$ as the set of all permutations where the ith prime (of the remaining 22)
+is its correct place. That means the set of all permutations (of the non-fixed 97 numbers) where the 22 primes are in their <strong>correct</strong>
+locations is $A_1 \bigcup A_2 \bigcup \dots \bigcup A_{22}$. This is the complement of what we are looking for so the expression we need to compute is
+$97! - A_1 \bigcup A_2 \bigcup \dots \bigcup A_{22}$. The reason we express it this way is that we can invoke the inclusion-exclusion principle (if you don't know what this
+is, do look it up, its motivations are very intuitive) and come up with a clean formulaic expression to express with computer code. What the I-E principle basically states is the union of multiple sets can be expressed as an alternating sum of the unions of subgroups of all the sets in question. </p>
+
+  <p>
+  <dt-code block language="python">
+          from math import factorial
+
+          def C(n,r):
+          	return factorial(n) / (factorial(n-r) * factorial(r))
+
+          def foolishprimes():
+          	sample_space_size = factorial(100)
+          	event_size = C(25, 3) * (factorial(97) - sum([(-1)**(i-1) * C(22, i) * factorial(97-i) for i in range(1,23)]))
+          	print(round(event_size/sample_space_size,12))
+
+          foolishprimes()
+  </dt-code>
+  </p>
+  <p> So let me try and explain the code quickly. The sum(...) function is the I-E principle in action. The (-1) term is to induce an alternating sum. The next two terms are for finding (without loss of generality) the number of elements in for example say $A_1 \bigcup A_2 \bigcup A_3$. We then iterate
+through all the possible subgroup sizes (read the wikipedia for I-E). We use 22 choose i to represent the number of ways we can pick i primes to be in the right location and factoiral(97-i) to calculate the number of permutations of the rest of the non fixed numbers.
+          We multiply that value with 25 choose 3, because that
+is the number of ways we can fix three primes. Do not write your own factorial function because there is no way it can handle or represent anything past n = 20. The geniuses of our time have found a way to store large numbers as digit arrays to bypass memory constraints and seamlessly allow arithmetic operations
+without requiring specialized functions. Without their genius my solution would not work and would require some voodoo. If you want voodoo, attempt the hackkerank version of this problem, it requires a bunch of trick to hit the time requirments such as precomputation and dynamic programming.
+  <!-- <p>We can also cite <dt-cite key="gregor2015draw"></dt-cite> external publications.</p> -->
+</dt-article>
+
+<dt-appendix>
+</dt-appendix>
+
+<!-- <script type="text/bibliography">
+  @article{gregor2015draw,
+    title={DRAW: A recurrent neural network for image generation},
+    author={Gregor, Karol and Danihelka, Ivo and Graves, Alex and Rezende, Danilo Jimenez and Wierstra, Daan},
+    journal={arXivreprint arXiv:1502.04623},
+    year={2015},
+    url={https://arxiv.org/pdf/1502.04623.pdf}
+  }
+</script> -->
